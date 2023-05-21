@@ -1,5 +1,6 @@
 mod backup;
 mod restore;
+mod documents;
 
 use structopt::StructOpt;
 
@@ -16,11 +17,11 @@ pub struct BackupCommand {
 
     /// Number of concurrent threads to run to perform the backup
     #[structopt(long, default_value = "1")]
-    pub workers: u8,
+    pub workers: usize,
 
     /// Number of documents to obtain at a time
     #[structopt(long, default_value = "50")]
-    pub cadence: u8,
+    pub cadence: usize,
 
     /// Where to save the backups
     #[structopt(long, default_value = "./")]
@@ -44,9 +45,29 @@ pub struct RestoreCommand {
 }
 
 #[derive(StructOpt)]
+pub struct DocumentCommand {
+    /// The URL of the cognitive search service
+    pub url: String,
+
+    /// The API key required to access the service
+    pub api_key: String,
+
+    /// The name of the index
+    pub index: String,
+
+    /// The key of the document
+    pub key: String,
+
+    /// Fields to select
+    #[structopt(long, default_value = "*")]
+    pub select: String,
+}
+
+#[derive(StructOpt)]
 enum Command {
     Backup(BackupCommand),
     Restore(RestoreCommand),
+    Document(DocumentCommand),
 }
 
 #[derive(StructOpt)]
@@ -62,5 +83,6 @@ fn main() {
     match opt.command {
         Command::Backup(cmd) => backup::run(cmd),
         Command::Restore(cmd) => restore::run(cmd),
+        Command::Document(cmd) => documents::run(cmd),
     }
 }

@@ -4,7 +4,7 @@ use reqwest::Client;
 use serde_json::Value;
 use serde::Serialize;
 use std::error::Error;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 use std::fs::File;
 use std::io::Write;
 

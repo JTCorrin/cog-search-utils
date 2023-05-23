@@ -26,6 +26,14 @@ pub struct BackupCommand {
     /// Where to save the backups
     #[structopt(long, default_value = "./")]
     pub file: String,
+
+    /// Perform a restore after backup
+    #[structopt(long)]
+    pub restore: bool,
+
+    /// Perform a restore after backup
+    #[structopt(long)]
+    pub memory: bool,
 }
 
 #[derive(StructOpt)]
